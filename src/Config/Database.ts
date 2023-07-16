@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { EnvVariables } from "./EnvVariables";
 
-const DB_Connection_String: string | undefined = EnvVariables.DB_LOCALURL;
+const DB_Connection_String: string | undefined = EnvVariables.DB_LOCALURL!;
 
 export const DBCONNECTION = async () => {
   try {
