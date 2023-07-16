@@ -9,7 +9,7 @@ import HistoryModels from "../Models/HistoryModels";
 import otpgenerator from "otp-generator";
 import { AsyncHandler } from "../Utils/AsyncHandler";
 import { HTTPCODES, MainAppError } from "../Utils/MainAppError";
-import { InsufficientFunds } from "../Emails/Emails";
+import { InsufficientFunds, VerifyUsers } from "../Emails/Emails";
 
 // Get all users
 export const GetAllUsers = AsyncHandler(
@@ -88,6 +88,8 @@ export const RegisterUsers = AsyncHandler(
         credit: 0,
         debit: 0,
       });
+
+      VerifyUsers(user);
 
       user?.wallet.push(new mongoose.Types.ObjectId(userWallet?._id));
       user.save();
@@ -242,7 +244,7 @@ export const MakeDeposit = AsyncHandler(
 
             // Updating the receiver wallet to receive the credit alert:
             await WalletModels.findByIdAndUpdate(getRecieverWallet?._id, {
-              Balance: getRecieverWallet?.Balance + amount,
+              Balance: parseInt(getRecieverWallet?.Balance + amount),
               Date: TransferDate,
               credit: amount,
               debit: 0,
@@ -262,7 +264,10 @@ export const MakeDeposit = AsyncHandler(
           }
         }
         return res.status(HTTPCODES.OK).json({
-          messgae: "Transaction Successfull",
+          message: "Transaction Successfull",
+          TransactionDetails: `You have sent ${amount} to ${getReciever.name} on ${TransferDate}`,
+          Balance: `Your Account Balance is remaining ${getUserWallet?.Balance}`,
+          NoticationType: "Email Notification",
         });
       } else {
         return res.status(HTTPCODES.NOT_FOUND).json({

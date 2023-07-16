@@ -3,15 +3,19 @@ import nodemailer from "nodemailer";
 import path from "path";
 import { google } from "googleapis";
 
-const GOOGLE_ID =
-  "607063325888-5r9ma23i481qd1tk065dlgf9pofascfi.apps.googleusercontent.com";
+// Not changing
+const GOOGLE_REDIRECT: string = "https://developers.google.com/oauthplayground";
 
-const GOOGLE_SECRET = "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";
+// Not changing
+const GOOGLE_ID: string =
+  "24372524741-jn16e1i5tcijldtr4ipcn55rtje4am4j.apps.googleusercontent.com";
 
-const GOOGLE_REFRESHTOKEN =
-  "1//04k_z9ebpngq-CgYIARAAGAQSNwF-L9Ir0IlTnY6iVtGwKhCyOuFixABn1LPLxlyYot70MYSTKHyO7ad7p2hJVYM0aIHWO-SDI6M";
+//   Not changing
+const GOOGLE_SECRET: string = "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";
 
-const GOOGLE_REDIRECT = "https://developers.google.com/oauthplayground";
+// Changing - Get it from google api , use the redirect link to work on that
+const GOOGLE_REFRESHTOKEN: string =
+  "1//04GUtuw7JeuxYCgYIARAAGAQSNwF-L9IroTMvzhkr6oNRxm63Cima8oRzQU4tIsivTj9EPBmDL9qUatQODhDhkP0qbP4qut3HUdE";
 
 // The frontend url for the verified page(substitute the url here)
 const Verification_URL = "https://pakam.ng/verified";
