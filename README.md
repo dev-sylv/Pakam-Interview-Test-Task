@@ -24,6 +24,7 @@ CODE WALKTHROUGHS:
 <br/>
 - The email auth has 2 functions in it; the first is for the account(email) verification when users signs up. The second is an email for the notification of insufficient balance when the users makes an automated deposit
  with the notification type of email.
+
   NB: The Verification_URL there should come from the frontend, the url of the page from the frontend. Got my Google ID, secret and refresh token from google console cloud for the email.
 <br/>
 - In my controllers, you can get all users in the system, get a single user details, Authenticate and Authorize a user(sign up, verify and sign in).
@@ -33,19 +34,19 @@ CODE WALKTHROUGHS:
 - My routes contains the endpoint:
   (Depending on the port you set up for yourself, mine is 3500)
     <br/>
-- Endpoints for Get all Users: "http://localhost/api/users/all-users"
+- Endpoints for Get all Users: "http://localhost:3500/api/users/all-users"
   <br/>
-- Endpoints for Get One User: "http://localhost/api/users/user/:userID"
+- Endpoints for Get One User: "http://localhost:3500/api/users/user/:userID"
 -   <br/>
-- Endpoints for Users Registration: "http://localhost/api/users/registerusers"
+- Endpoints for Users Registration: "http://localhost:3500/api/users/registerusers"
 -   <br/>
-- Endpoints for Users Verification: "http://localhost/api/users/verifyusers"
+- Endpoints for Users Verification: "http://localhost:3500/api/users/verifyusers"
 -   <br/>
-- Endpoints for Users Login: "http://localhost/api/users/loginuser"
+- Endpoints for Users Login: "http://localhost:3500/api/users/loginuser"
 -   <br/>
-- Endpoints for Making automated deposits: "http://localhost/api/users/depositmoney/:userID/:walletID"
+- Endpoints for Making automated deposits: "http://localhost:3500/api/users/depositmoney/:userID/:walletID"
 -   <br/>
-- Endpoints for Funding wallet: "http://localhost/api/users/fundwallet/:userID/:walletID"
+- Endpoints for Funding wallet: "http://localhost:3500/api/users/fundwallet/:userID/:walletID"
 -   <br/>
 <br/>
 
