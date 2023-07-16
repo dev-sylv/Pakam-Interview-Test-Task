@@ -71,3 +71,54 @@ export const VerifyUsers = async (user: any) => {
     console.log("An error occured in sending email", error);
   }
 };
+
+// Email for the insufficient funds:
+export const InsufficientFunds = async (user: any) => {
+  try {
+    const GetUserAccessToken: any = await oAuth.getAccessToken();
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        type: "OAUTH2",
+        user: "nicsylvia15f@gmail.com",
+        clientId: GOOGLE_ID,
+        clientSecret: GOOGLE_SECRET,
+        refreshToken: GOOGLE_REFRESHTOKEN,
+        accessToken: GetUserAccessToken.token,
+      },
+    });
+
+    // Connecting ejs file:
+    const InsufficientEjs = path.join(
+      __dirname,
+      "../../views/InsufficientFunds.ejs"
+    );
+
+    // To render file:
+    const Renderfundsfile = await ejs.renderFile(InsufficientEjs, {
+      name: user?.name,
+      email: user?.email,
+      userId: user?._id,
+      // userBalance
+    });
+
+    const Mailer = {
+      from: "Sylvia Pakam ♻ <nicsylvia15f@gmail.com>",
+      to: user?.email,
+      subject: "Insufficient Funds",
+      html: Renderfundsfile,
+    };
+
+    transporter
+      .sendMail(Mailer)
+      .then(() => {
+        console.log("Insufficient email sent");
+      })
+      .catch((err) => {
+        console.log("An error occured, please try again");
+      });
+  } catch (error) {
+    console.log("An error occured in sending insufficient funds email", error);
+  }
+};
