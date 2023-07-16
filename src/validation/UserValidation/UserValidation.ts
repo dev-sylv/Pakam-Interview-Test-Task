@@ -1,4 +1,4 @@
-import validationSetUp from "../validatorSetUp";
+import validationSetUp from "../ValidatorSetUp";
 import { NextFunction, Request, Response, RequestHandler } from "express";
 import { UserSchemaValidation } from "./UserSchema";
 

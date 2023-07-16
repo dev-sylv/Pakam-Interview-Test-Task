@@ -6,7 +6,7 @@ import morgan from "morgan";
 
 import { MainAppError, HTTPCODES } from "./Utils/MainAppError";
 
-import { ErrorHandler } from "./Middlewares/ErrorHandler/ErrorHandler";
+import { errorHandler } from "./Middlewares/ErrorHandler";
 
 import UserRouter from "./Routes/UserRoutes";
 

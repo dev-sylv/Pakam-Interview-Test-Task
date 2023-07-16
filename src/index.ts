@@ -1,16 +1,16 @@
 import express, { Application } from "express";
-import { EnvironmentVariables } from "./Config/Database";
-import { MainAppConfig } from "./MainApp";
+import { EnvVariables } from "./Config/EnvVariables";
+import { AppConfig } from "./MainApp";
 import { DBCONNECTION } from "./Config/Database";
 
 // The port of our backend server
-const port: number = Number(EnvironmentVariables.PORT);
+const port: number = Number(EnvVariables.PORT);
 
 // Extantiating our server from express
 const app: Application = express();
 
 // Connecting main app configuration
-MainAppConfig(app);
+AppConfig(app);
 
 // Connecting DB to server:
 DBCONNECTION();
