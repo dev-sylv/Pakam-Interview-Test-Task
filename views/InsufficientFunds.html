@@ -27,13 +27,13 @@
             border="0" />
         </div>
 
-        <h2 style="color: #03903e">Hi <%= name %></h2>
+        <h2 style="color: #03903e">Hi <%= username %></h2>
       </div>
 
       <div>
         <h3>
           We are writing to inform you that an automated deposit into your
-          account, scheduled for [Date], could not be processed due to
+          account, scheduled for <%= TransferDate %>, could not be processed due to
           insufficient funds in your primary money source (wallet). We wanted to
           bring this matter to your attention and provide you with the necessary
           information regarding the failed deposit.
@@ -42,12 +42,22 @@
 
       <div>
         <p>
-          Deposit Details: Amount: [Amount of the deposit] Date of Deposit:
-          [Date of the deposit] Reason: Insufficient funds in your primary money
-          source (wallet) We understand that situations like these can be
+          <h3>Deposit Details:</h3>
+          <br />
+          Amount: <%= TransferAmount %>
+          <br />
+           Date of Deposit:
+           <%= TransferDate %>
+          <br />
+          Reason: Insufficient funds in your primary money
+          source (wallet).
+          <br />
+          <br />
+          We understand that situations like these can be
           unexpected and inconvenient. To rectify this issue and ensure that
           your account remains up to date, we kindly request that you take the
-          following actions: Check Your Primary Money Source (Wallet): Please
+          following actions: 
+          Check Your Primary Money Source (Wallet): Please
           verify the balance in your primary money source (wallet) to ensure
           that it has sufficient funds to cover the deposit amount.
         </p>

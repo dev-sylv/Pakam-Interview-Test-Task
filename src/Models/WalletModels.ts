@@ -11,6 +11,9 @@ const WalletSchema = new Schema<WalletData>(
     Balance: {
       type: Number,
     },
+    Date: {
+      type: String,
+    },
     debit: {
       type: Number,
     },

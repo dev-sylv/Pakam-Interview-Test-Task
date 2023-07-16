@@ -17,6 +17,7 @@ export interface UserData {
 
 export interface WalletData {
   Owner: string;
+  Date: string;
   Balance: number;
   credit: number;
   debit: number;

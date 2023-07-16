@@ -184,6 +184,9 @@ export const MakeDeposit = AsyncHandler(
     try {
       const { accountNumber, amount } = req.body;
 
+      // Get date of the transaction
+      const TransferDate = new Date();
+
       // This will genrate a transaction reference number
       const GenerateTransactionReference =
         Math.floor(Math.random() * 6745689743) + 243;
@@ -200,8 +203,7 @@ export const MakeDeposit = AsyncHandler(
       if (getUser && getReciever) {
         if (amount > getUserWallet?.Balance!) {
           InsufficientFunds(getUser);
-
-          return res.status(400).json({
+          return res.status(HTTPCODES.BAD_REQUEST).json({
             message: "Insufficient Funds",
           });
         } else {
@@ -217,16 +219,17 @@ export const MakeDeposit = AsyncHandler(
               getUserWallet?._id,
               {
                 Balance: getUserWallet?.Balance! - amount,
+                Date: TransferDate,
                 credit: 0,
                 debit: amount,
-              }
+              },
               // to see the changes immediately
-              // {new: true}
+              { new: true }
             );
 
             // Create the receipt/history of your transaction:
             const createSenderHistory = await HistoryModels.create({
-              message: `You have sent ${amount} to ${getReciever.name}`,
+              message: `You have sent ${amount} to ${getReciever.name} on ${TransferDate}`,
               transactionReference: GenerateTransactionReference,
               transactionType: "Debit",
             });
@@ -239,13 +242,14 @@ export const MakeDeposit = AsyncHandler(
             // Updating the receiver wallet to receive the credit alert:
             await WalletModels.findByIdAndUpdate(getRecieverWallet?._id, {
               Balance: getRecieverWallet?.Balance + amount,
+              Date: TransferDate,
               credit: amount,
               debit: 0,
             });
 
             // Create the credit alert message for the receiver:
             const createReceiverHistory = await HistoryModels.create({
-              message: `An amount of ${amount} has been sent to you by ${getUser.name}`,
+              message: `An amount of ${amount} has been sent to you by ${getUser.name} on ${TransferDate}`,
               transactionReference: GenerateTransactionReference,
               transactionType: "Credit",
             });
@@ -260,12 +264,12 @@ export const MakeDeposit = AsyncHandler(
           messgae: "Transaction Successfull",
         });
       } else {
-        return res.status(404).json({
+        return res.status(HTTPCODES.NOT_FOUND).json({
           message: "Account not found",
         });
       }
     } catch (error) {
-      return res.status(404).json({
+      return res.status(HTTPCODES.NOT_FOUND).json({
         message: "An error occured",
         data: error,
       });
