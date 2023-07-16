@@ -48,3 +48,9 @@ CODE WALKTHROUGHS:
 - Endpoints for Funding wallet: "http://localhost/api/users/fundwallet/:userID/:walletID"
 -   <br/>
 <br/>
+
+TO RUN CODES:
+After Npm i, on the right directory/folder, run the "npm run dev" command
+<br/>
+This will start up the server and every thing connected.
+The launch up postamn and text the endpoints there really
