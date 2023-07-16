@@ -16,12 +16,12 @@ export const GetAllUsers = AsyncHandler(
   async (req: Request<{}, {}, UserData>, res: Response): Promise<Response> => {
     try {
       const AllUsers = await UserModels.find().sort({ createdAt: -1 });
-      return res.status(200).json({
+      return res.status(HTTPCODES.OK).json({
         message: "Successfully got all users",
         data: AllUsers,
       });
     } catch (error) {
-      return res.status(404).json({
+      return res.status(HTTPCODES.NOT_FOUND).json({
         message: "Couldn't get all users",
         data: error,
       });
@@ -35,12 +35,12 @@ export const GetOneUser = AsyncHandler(
     try {
       const Auser = await UserModels.findById(req.params.userID);
 
-      return res.status(200).json({
+      return res.status(HTTPCODES.OK).json({
         message: "Successfully got this user",
         data: Auser,
       });
     } catch (error) {
-      return res.status(404).json({
+      return res.status(HTTPCODES.BAD_REQUEST).json({
         message: "Couldn't get this user",
         data: error,
       });
@@ -165,12 +165,12 @@ export const LoginUsers = async (req: Request, res: Response) => {
         });
       }
     } else {
-      return res.status(404).json({
+      return res.status(HTTPCODES.NOT_FOUND).json({
         message: "User does not exist",
       });
     }
   } catch (error) {
-    return res.status(404).json({
+    return res.status(HTTPCODES.BAD_REQUEST).json({
       message: "Couldn't log in users",
       data: error,
     });
@@ -208,9 +208,9 @@ export const MakeDeposit = AsyncHandler(
             NotificationType: "Email Notification",
           });
         } else {
-          // Avoid user sending my money to my account
+          // Avoid user sending my money to my account that is prevent crediting yourself
           if (getUser?.accountNumber === accountNumber) {
-            return res.status(400).json({
+            return res.status(HTTPCODES.REDIRECTED).json({
               message:
                 "This is your account!!!...You can't transfer funds to yourself from this wallet",
             });
@@ -261,7 +261,7 @@ export const MakeDeposit = AsyncHandler(
             getReciever?.save();
           }
         }
-        return res.status(200).json({
+        return res.status(HTTPCODES.OK).json({
           messgae: "Transaction Successfull",
         });
       } else {
@@ -304,12 +304,12 @@ export const FundWalletFromBank = async (req: Request, res: Response) => {
       new mongoose.Types.ObjectId(WalletCreditReceipt?._id)
     );
 
-    return res.status(200).json({
+    return res.status(HTTPCODES.OK).json({
       message: "Wallet credit successfuully",
       data: WalletCreditReceipt,
     });
   } catch (error) {
-    return res.status(404).json({
+    return res.status(HTTPCODES.BAD_GATEWAY).json({
       message: "An error occured",
       data: error,
     });
