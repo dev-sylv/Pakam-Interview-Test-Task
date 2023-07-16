@@ -34,6 +34,7 @@ const UserSchema = new Schema<UserData>(
     },
     verified: {
       type: Boolean,
+      default: false,
     },
     wallet: [
       {
