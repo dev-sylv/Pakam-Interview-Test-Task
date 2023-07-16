@@ -96,7 +96,7 @@ export const UsersVerification = AsyncHandler(
     const User = await UserModels.findByIdAndUpdate(
       userID,
       {
-        token: "",
+        TOKEN: "",
         verified: true,
       },
       { new: true }
@@ -117,3 +117,42 @@ export const UsersVerification = AsyncHandler(
     }
   }
 );
+
+// Login:
+export const LoginUsers = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+
+    const getuser = await UserModels.findOne({ email });
+
+    const check = await bcrypt.compare(password, getuser!.password);
+
+    if (getuser && check) {
+      if (getuser?.verified && getuser?.TOKEN === "") {
+        return res.status(200).json({
+          message: "Login successfull",
+          data: `Welcome ${getuser?.name}`,
+          Userdata: getuser,
+          TOKEN: jwt.sign(
+            { _id: getuser?.id },
+            "dhvvv222kfufueueueufueieieifduycyue",
+            { expiresIn: 5 }
+          ),
+        });
+      } else {
+        return res.status(HTTPCODES.SERVICE_UNAVAILABLE).json({
+          message: "User not verified",
+        });
+      }
+    } else {
+      return res.status(404).json({
+        message: "User does not exist",
+      });
+    }
+  } catch (error) {
+    return res.status(404).json({
+      message: "Couldn't log in users",
+      data: error,
+    });
+  }
+};

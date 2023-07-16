@@ -6,6 +6,8 @@ export interface UserData {
   phoneNumber: number;
   userName: string;
   verified: boolean;
+  OTP: string;
+  TOKEN: string;
   wallet: {}[];
   history: {}[];
 }

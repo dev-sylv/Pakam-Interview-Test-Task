@@ -32,6 +32,12 @@ const UserSchema = new Schema<UserData>(
       type: String,
       required: [true, "Please enter your username"],
     },
+    OTP: {
+      type: String,
+    },
+    TOKEN: {
+      type: String,
+    },
     verified: {
       type: Boolean,
       default: false,
