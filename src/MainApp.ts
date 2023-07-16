@@ -40,5 +40,5 @@ export const AppConfig = (app: Application) => {
       })
     );
   });
-  app.use(ErrorHandler);
+  app.use(errorHandler);
 };

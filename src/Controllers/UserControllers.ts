@@ -9,6 +9,7 @@ import HistoryModels from "../Models/HistoryModels";
 import otpgenerator from "otp-generator";
 import { AsyncHandler } from "../Utils/AsyncHandler";
 import { HTTPCODES, MainAppError } from "../Utils/MainAppError";
+import { InsufficientFunds } from "../Emails/Emails";
 
 // Get all users
 export const GetAllUsers = AsyncHandler(
@@ -30,9 +31,9 @@ export const GetAllUsers = AsyncHandler(
 
 // Get One users
 export const GetOneUser = AsyncHandler(
-  async (req: Request<{}, {}, UserData>, res: Response): Promise<Response> => {
+  async (req: Request, res: Response): Promise<Response> => {
     try {
-      const Auser = await UserModels.findById(req.params.id);
+      const Auser = await UserModels.findById(req.params.userID);
 
       return res.status(200).json({
         message: "Successfully got this user",
@@ -175,3 +176,99 @@ export const LoginUsers = async (req: Request, res: Response) => {
     });
   }
 };
+
+// Function that handles the notification process when an automated
+// deposit fails due to insufficient funds in a user's wallet.:
+export const MakeDeposit = AsyncHandler(
+  async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const { accountNumber, amount } = req.body;
+
+      // This will genrate a transaction reference number
+      const GenerateTransactionReference =
+        Math.floor(Math.random() * 6745689743) + 243;
+
+      // RECEIVER ACCOUNT:
+      const getReciever = await UserModels.findOne({ accountNumber });
+
+      const getRecieverWallet = await WalletModels.findById(getReciever?._id);
+
+      // SENDER ACCOUNT:
+      const getUser = await UserModels.findById(req.params.userID);
+      const getUserWallet = await WalletModels.findById(req.params.walletID);
+
+      if (getUser && getReciever) {
+        if (amount > getUserWallet?.Balance!) {
+          InsufficientFunds(getUser);
+
+          return res.status(400).json({
+            message: "Insufficient Funds",
+          });
+        } else {
+          // Avoid user sending my money to my account
+          if (getUser?.accountNumber === accountNumber) {
+            return res.status(400).json({
+              message:
+                "This is your account!!!...You can't transfer funds to yourself from this wallet",
+            });
+          } else {
+            // Updating the sender wallet to receive the debit alert
+            await WalletModels.findByIdAndUpdate(
+              getUserWallet?._id,
+              {
+                Balance: getUserWallet?.Balance! - amount,
+                credit: 0,
+                debit: amount,
+              }
+              // to see the changes immediately
+              // {new: true}
+            );
+
+            // Create the receipt/history of your transaction:
+            const createSenderHistory = await HistoryModels.create({
+              message: `You have sent ${amount} to ${getReciever.name}`,
+              transactionReference: GenerateTransactionReference,
+              transactionType: "Debit",
+            });
+
+            getUser.history.push(
+              new mongoose.Types.ObjectId(createSenderHistory?._id)
+            );
+            getUser.save();
+
+            // Updating the receiver wallet to receive the credit alert:
+            await WalletModels.findByIdAndUpdate(getRecieverWallet?._id, {
+              Balance: getRecieverWallet?.Balance + amount,
+              credit: amount,
+              debit: 0,
+            });
+
+            // Create the credit alert message for the receiver:
+            const createReceiverHistory = await HistoryModels.create({
+              message: `An amount of ${amount} has been sent to you by ${getUser.name}`,
+              transactionReference: GenerateTransactionReference,
+              transactionType: "Credit",
+            });
+
+            getReciever.history.push(
+              new mongoose.Types.ObjectId(createReceiverHistory?._id)
+            );
+            getReciever?.save();
+          }
+        }
+        return res.status(200).json({
+          messgae: "Transaction Successfull",
+        });
+      } else {
+        return res.status(404).json({
+          message: "Account not found",
+        });
+      }
+    } catch (error) {
+      return res.status(404).json({
+        message: "An error occured",
+        data: error,
+      });
+    }
+  }
+);
