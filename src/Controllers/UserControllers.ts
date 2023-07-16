@@ -28,6 +28,25 @@ export const GetAllUsers = AsyncHandler(
   }
 );
 
+// Get One users
+export const GetOneUser = AsyncHandler(
+  async (req: Request<{}, {}, UserData>, res: Response): Promise<Response> => {
+    try {
+      const Auser = await UserModels.findById(req.params.id);
+
+      return res.status(200).json({
+        message: "Successfully got this user",
+        data: Auser,
+      });
+    } catch (error) {
+      return res.status(404).json({
+        message: "Couldn't get this user",
+        data: error,
+      });
+    }
+  }
+);
+
 // RegisterUsers
 export const RegisterUsers = AsyncHandler(
   async (

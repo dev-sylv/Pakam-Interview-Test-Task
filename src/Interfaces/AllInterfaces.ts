@@ -6,6 +6,9 @@ export interface UserData {
   phoneNumber: number;
   userName: string;
   verified: boolean;
+  Amount: string;
+  NotificationType: string;
+  WalletBalance: string;
   OTP: string;
   TOKEN: string;
   wallet: {}[];
