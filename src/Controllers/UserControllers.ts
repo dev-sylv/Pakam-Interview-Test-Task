@@ -205,6 +205,7 @@ export const MakeDeposit = AsyncHandler(
           InsufficientFunds(getUser);
           return res.status(HTTPCODES.BAD_REQUEST).json({
             message: "Insufficient Funds",
+            NotificationType: "Email Notification",
           });
         } else {
           // Avoid user sending my money to my account

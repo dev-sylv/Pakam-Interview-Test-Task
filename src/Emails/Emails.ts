@@ -98,8 +98,6 @@ export const InsufficientFunds = async (user: any) => {
     // To render file:
     const Renderfundsfile = await ejs.renderFile(InsufficientEjs, {
       username: user?.name,
-      email: user?.email,
-      userId: user?._id,
       userAccNumber: user?.accountNumber,
       TransferAmount: user?.amount,
       userBalance: user?.wallet?.Balance,

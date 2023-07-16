@@ -42,6 +42,10 @@ const UserSchema = new Schema<UserData>(
       type: Boolean,
       default: false,
     },
+    NotificationType: {
+      type: String,
+      default: "Email Notification",
+    },
     wallet: [
       {
         type: mongoose.Schema.Types.ObjectId,
