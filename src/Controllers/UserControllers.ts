@@ -221,7 +221,7 @@ export const MakeDeposit = AsyncHandler(
             await WalletModels.findByIdAndUpdate(
               getUserWallet?._id,
               {
-                Balance: getUserWallet?.Balance! - amount,
+                Balance: parseInt(getUserWallet?.Balance!) - amount,
                 Date: TransferDate,
                 credit: 0,
                 debit: amount,
@@ -244,7 +244,7 @@ export const MakeDeposit = AsyncHandler(
 
             // Updating the receiver wallet to receive the credit alert:
             await WalletModels.findByIdAndUpdate(getRecieverWallet?._id, {
-              Balance: parseInt(getRecieverWallet?.Balance + amount),
+              Balance: parseInt(getRecieverWallet?.Balance) + amount,
               Date: TransferDate,
               credit: amount,
               debit: 0,
