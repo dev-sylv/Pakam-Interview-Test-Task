@@ -34,19 +34,19 @@ CODE WALKTHROUGHS:
 - My routes contains the endpoint:
   (Depending on the port you set up for yourself, mine is 3500)
     <br/>
-- Endpoints for Get all Users: "http://localhost:3500/api/users/all-users"
+- Endpoints for Get all Users: "/api/users/all-users"
   <br/>
-- Endpoints for Get One User: "http://localhost:3500/api/users/user/:userID"
+- Endpoints for Get One User: "/api/users/user/:userID"
 -   <br/>
-- Endpoints for Users Registration: "http://localhost:3500/api/users/registerusers"
+- Endpoints for Users Registration: "/api/users/registerusers"
 -   <br/>
-- Endpoints for Users Verification: "http://localhost:3500/api/users/verifyusers"
+- Endpoints for Users Verification: "/api/users/verifyusers"
 -   <br/>
-- Endpoints for Users Login: "http://localhost:3500/api/users/loginuser"
+- Endpoints for Users Login: "/api/users/loginuser"
 -   <br/>
-- Endpoints for Making automated deposits: "http://localhost:3500/api/users/depositmoney/:userID/:walletID"
+- Endpoints for Making automated deposits: "/api/users/depositmoney/:userID/:walletID"
 -   <br/>
-- Endpoints for Funding wallet: "http://localhost:3500/api/users/fundwallet/:userID/:walletID"
+- Endpoints for Funding wallet: "/api/users/fundwallet/:userID/:walletID"
 -   <br/>
 <br/>
 
