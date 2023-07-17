@@ -102,14 +102,20 @@ export const InsufficientFunds = async (getUser: any, amount: any) => {
     const getDate = getUser?.wallet?.map((e: any) => {
       return e.Date;
     });
+    const getNotificationType = getUser?.wallet?.map((e: any) => {
+      // return e.;
+    });
+    const getBalance = getUser?.wallet?.map((e: any) => {
+      return e.Balance;
+    });
     // To render file:
     const Renderfundsfile = await ejs.renderFile(InsufficientEjs, {
       username: getUser?.name,
       userAccNumber: getUser?.accountNumber,
       TransferAmount: amount,
-      userBalance: getUser?.wallet?.Balance,
+      userBalance: getBalance,
       TransferDate: getDate,
-      NotificationType: getUser?.NoticationType,
+      NotificationType: getUser?.NotificationType,
     });
     console.log(getUser);
 

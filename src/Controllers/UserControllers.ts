@@ -207,6 +207,7 @@ export const MakeDeposit = AsyncHandler(
       });
 
       const getUserWallet = await WalletModels.findById(req.params.walletID);
+      console.log("here", getUser?.NotificationType);
 
       if (getUser && getReciever) {
         if (amount > getUserWallet?.Balance!) {
