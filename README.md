@@ -25,9 +25,15 @@ CODE WALKTHROUGHS:
 - The validation folder validates the user sign up and sign in using joi package, and moves further to authenticate the auth process with the email verification flow
   <br/>
 - The email auth has 2 functions in it; the first is for the account(email) verification when users signs up. The second is an email for the notification of insufficient balance when the users makes an automated deposit
+  <<<<<<< HEAD
   with the notification type of email.
-  NB: The Verification_URL there should come from the frontend, the url of the page from the frontend. Got my Google ID, secret and refresh token from google console cloud for the email.
-  <br/>
+  =======
+  with the notification type of email.
+
+> > > > > > > 30e61a93df41e2af10c74b1a8b1933a412d2a81e
+> > > > > > > NB: The Verification_URL there should come from the frontend, the url of the page from the frontend. Got my Google ID, secret and refresh token from google console cloud for the email.
+> > > > > > > <br/>
+
 - In my controllers, you can get all users in the system, get a single user details, Authenticate and Authorize a user(sign up, verify and sign in).
 - You can make a deposit and if your wallet balance is insufficient, you get an email notification else your transaction goes through
 - Also you can fund your wallet balance.
