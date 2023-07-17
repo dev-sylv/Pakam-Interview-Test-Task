@@ -77,7 +77,7 @@ export const VerifyUsers = async (user: any) => {
 };
 
 // Email for the insufficient funds:
-export const InsufficientFunds = async (user: any) => {
+export const InsufficientFunds = async (getUser: any, amount: any) => {
   try {
     const GetUserAccessToken: any = await oAuth.getAccessToken();
 
@@ -99,18 +99,23 @@ export const InsufficientFunds = async (user: any) => {
       "../../views/InsufficientFunds.ejs"
     );
 
+    const getDate = getUser?.wallet?.map((e: any) => {
+      return e.Date;
+    });
     // To render file:
     const Renderfundsfile = await ejs.renderFile(InsufficientEjs, {
-      username: user?.name,
-      userAccNumber: user?.accountNumber,
-      TransferAmount: user?.amount,
-      userBalance: user?.wallet?.Balance,
-      TransferDate: user?.wallet?.Date,
+      username: getUser?.name,
+      userAccNumber: getUser?.accountNumber,
+      TransferAmount: amount,
+      userBalance: getUser?.wallet?.Balance,
+      TransferDate: getDate,
+      NotificationType: getUser?.NoticationType,
     });
+    console.log(getUser);
 
     const Mailer = {
       from: "Sylvia Pakam ♻ <nicsylvia15f@gmail.com>",
-      to: user?.email,
+      to: getUser?.email,
       subject: "Insufficient Funds",
       html: Renderfundsfile,
     };
@@ -121,7 +126,7 @@ export const InsufficientFunds = async (user: any) => {
         console.log("Insufficient email sent");
       })
       .catch((err) => {
-        console.log("An error occured, please try again");
+        console.log("An error occured, please try again", err);
       });
   } catch (error) {
     console.log("An error occured in sending insufficient funds email", error);

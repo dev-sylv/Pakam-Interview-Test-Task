@@ -43,6 +43,8 @@
       <div>
         <p>
           <h3>Deposit Details:</h3>
+          Account Number: <%= userAccNumber %>
+          <br />
           Amount: <%= TransferAmount %>
           <br />
            Date of Deposit:
@@ -51,12 +53,14 @@
           Reason: Insufficient funds in your primary money
           source (wallet).
           <br />
+          Notification Type: <%= NotificationType %>
           <br />
          <h3>
           We understand that situations like these can be
           unexpected and inconvenient. To rectify this issue and ensure that
           your account remains up to date, we kindly request that you take the
           following actions: 
+          <br />
           Check Your Primary Money Source (Wallet): Verify the balance in your primary money source (wallet) to ensure
           that it has sufficient funds to cover the deposit amount.
          </h3>
